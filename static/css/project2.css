@@ -1,0 +1,25 @@
+/* 페이지 공통 */
+#container { border: 1px solid white; width: 1000px; height: 800px;
+    margin: 0 auto; }
+header { padding-left: 20px; }
+nav { border-bottom: 2px solid black; }
+nav ul { list-style: none; margin-bottom: 30px; }
+nav ul li { float: left; margin-right: 20px; padding-left: 100px;}
+nav ul li a:link { text-decoration: none; color: black; }
+nav ul li a:visited { color: black; }
+nav ul li a:hover { color: #b3d4fc; }
+nav ul li a:active { color: lightcoral; }
+main { width: 1000px; min-height: 700px; }
+footer { text-align: center; border-top: 2px solid black; }
+
+/* 회원가입, 로그인 */
+main h3 { margin-left: 30px; }
+form { margin: 0 auto; width: 320px; vertical-align: middle; }
+div { padding: 5px; }
+form label { display: inline-block; width: 110px; text-align: right;
+    font-weight: bold; }
+form input { padding: 5px; }
+button { padding: 5px 7px; }
+
+/* 새글 쓰기, 본문 보기 */
+.dragup { vertical-align: top; }
