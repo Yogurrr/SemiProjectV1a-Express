@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/project2.css">
+    {{{_sections.css}}}
+
+    <style>
+        main { position: relative; }
+        main img { position: absolute; top: 100px; left: 250px; }
+    </style>
+</head>
+<body>
+<div>
+    {{> header }}
+
+    {{{ body }}}
+
+    {{> footer }}
+</div>
+
+{{{_sections.script}}}
+</body>
+</html>

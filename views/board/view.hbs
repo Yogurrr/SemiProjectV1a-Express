@@ -1,0 +1,46 @@
+{{#section 'css'}}
+    <style>
+        main h3 { margin-left: 30px; }
+        #view { width: 600px; margin: 0 auto; }
+        label { display: inline-block; width: 110px; text-align: right;
+            font-weight: bold; }
+        #contents { border: 1px solid #cccccc; display: inline-block;
+            width: 460px; min-height: 350px; }
+        #view div label { padding-right: 10px; }
+    </style>
+{{/section}}
+
+<main>
+    <h3>게시판 본문글</h3>
+    <div id="view">
+        <div><label>제&nbsp;&nbsp;&nbsp;목</label>
+            <span>시간은 금이라구, 친구!! 진짜라구, 친구!!
+                    정말이라구, 친구!!</span></div>
+
+        <div><label>작성자</label>
+            <span>yogurrr</span></div>
+
+        <div><label>작성일</label>
+            <span>2023-01-11 09:44:05 (777)</span></div>
+
+        <div><label class="dragup">본&nbsp;&nbsp;&nbsp;문</label>
+            <span id="contents">
+                    시간은 금이라구, 친구!! 진짜라구, 친구!! 정말이라구, 친구!!
+                    시간은 금이라구, 친구!! 진짜라구, 친구!! 정말이라구, 친구!!
+                    시간은 금이라구, 친구!! 진짜라구, 친구!! 정말이라구, 친구!!
+                    시간은 금이라구, 친구!! 진짜라구, 친구!! 정말이라구, 친구!!
+                    시간은 금이라구, 친구!! 진짜라구, 친구!! 정말이라구, 친구!!
+                    시간은 금이라구, 친구!! 진짜라구, 친구!! 정말이라구, 친구!!
+                    시간은 금이라구, 친구!! 진짜라구, 친구!! 정말이라구, 친구!!
+                    시간은 금이라구, 친구!! 진짜라구, 친구!! 정말이라구, 친구!!
+                </span></div>
+
+        <div><label></label>
+            <button type="button" onclick="location.href='write.html'">
+                새글쓰기</button>
+            <button type="button">목록으로</button>
+            <button type="button">수정하기</button>
+            <button type="button">삭제하기</button>
+        </div>
+    </div>
+</main>

@@ -2,6 +2,7 @@
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
+const { engine } = require('express-handlebars');
 
 // 라우팅 모듈 설정
 const indexRouter = require('./routes/index')
@@ -14,8 +15,25 @@ const app = express();
 // 포트가 정해져있지 않으면 3000번을 포트로 쓰겠다는 것
 const port = process.env.PORT || 3000;
 
+// 템플릿 엔진 등록 및 설정
+app.engine('hbs', engine({
+    extname: '.hbs', defaultLayout: 'layout',
+    helpers: {
+        section: function(name, options) {
+            if(!this._sections) this._sections = {}
+            this._sections[name] = options.fn(this)
+            return null
+        },
+    },
+}))
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'hbs');
+
 // 라우팅 없이 바로 호출 가능하도록 static 폴더 설정
 app.use(express.static(path.join(__dirname, 'static')));
+
+// 서버 작동 현황 표시 - 로그 출력
+app.use(logger('dev'));
 
 // 라우팅 모듈 등록 - 클라이언트 요청 처리 핵심 파트
 // 정상 처리일 때
@@ -27,11 +45,14 @@ app.use('/board', boardRouter);
 // 비정상 처리일 때(오류 발생)
 app.use((req, res) => {
     res.status(404);
-    res.send('404 - 페이지가 없습니다!');
+    // res.send('404 - 페이지가 없습니다!');
+    res.sendFile(path.join(__dirname, 'public', '404.html'));
 });
 app.use((err, req, res, next) => {
+    console.log(err);   // 오류 메시지 출력
     res.status(500);
-    res.send('500 - 서버 내부 오류가 발생했습니다!')
+    // res.send('500 - 서버 내부 오류가 발생했습니다!')
+    res.sendFile(path.join(__dirname, 'public', '500.html'));
 });
 
 // 위에서 설정한 사항들을 토대로 express 서버 실행

@@ -1,0 +1,160 @@
+{{#section 'css'}}
+    <style>
+        main h3 { margin-left: 30px; }
+
+        .board { width: 700px; margin: 0 auto; table-layout: fixed; }
+        .board td { text-align: center; padding: 7px; }
+        .board th { padding: 7px; border-top: 1px solid black; }
+        .board td:nth-child(2) { white-space: nowrap; overflow: hidden;
+            text-overflow: ellipsis; }
+        .board td:nth-child(odd) { background: lightblue; }
+        .board td:nth-child(even) { background: lightsteelblue; }
+        .board tr:first-child td { background: white; }
+        .alignrgt { text-align-last: right; }
+
+        .link a:link { text-decoration: none; color: black; }
+        .link a:visited { color: black; }
+        .link a:hover { color: #b3d4fc; }
+        .link a:active { color: lightcoral; }
+
+        .pagenation { list-style: none; padding: 0; margin: 0 auto;
+            width: 435px;}
+        .pagenation li { display: inline-block; padding: 10px; }
+        .cpage { font: bold 48px '맑은 고딕'; color: red; }
+        .prev { color: #cccccc }
+    </style>
+{{/section}}
+
+<main>
+    <h3>게시판</h3>
+    <table class="board">
+        <colgroup> <!-- 각 컬럼에 디자인 적용 -->
+            <col style="width: 10%">
+            <col>
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 10%">
+        </colgroup>
+        <tr>
+            <td colspan="5" class="alignrgt">
+                <button onclick="location.href='write'">새글쓰기</button></td>
+        </tr>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+            <th>조회</th>
+        </tr>
+        <tr>
+            <td style="text-align: center">1</td>
+            <td class="link"><a href="view">시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!
+            </a></td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">2</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">3</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">4</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">5</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">6</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">7</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">8</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">9</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">10</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">11</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">12</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">13</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">14</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+        <tr>
+            <td style="text-align: center">15</td>
+            <td>시간은 금이라구, 친구!, 진짜라구, 친구, 정말이라구, 친구, 사실이라구, 친구!</td>
+            <td>yogurrr</td>
+            <td>2023-01-10</td>
+            <td>777</td>
+        </tr>
+    </table>
+    <ul class="pagenation">
+        <li class="prev">이전</li><li class="cpage">1</li><li>2</li><li>3</li><li>4</li><li>5</li>
+        <li>6</li><li>7</li><li>8</li><li>9</li><li>10</li><li>다음</li>
+    </ul>
+</main>
