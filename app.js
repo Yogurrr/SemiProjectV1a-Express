@@ -5,8 +5,8 @@ const logger = require('morgan');
 
 // 라우팅 모듈 설정
 const indexRouter = require('./routes/index')
-const userRouter = require('./routes/user')
-const aboutRouter = require('./routes/about')
+const memberRouter = require('./routes/member')
+const boardRouter = require('./routes/board')
 // const {static} = require("express");
 
 // express 객체 생성 및 포트 변수 선언
@@ -20,8 +20,8 @@ app.use(express.static(path.join(__dirname, 'static')));
 // 라우팅 모듈 등록 - 클라이언트 요청 처리 핵심 파트
 // 정상 처리일 때
 app.use('/', indexRouter);
-app.use('/user', userRouter);
-app.use('/about', aboutRouter);
+app.use('/member', memberRouter);
+app.use('/board', boardRouter);
 
 // 404, 500 응답코드에 대한 라우팅 처리 정의
 // 비정상 처리일 때(오류 발생)
