@@ -1,3 +1,4 @@
+/*
 const processJoin = () => {
     let frm = document.join;
     if(frm.userid.value === '') alert('아이디는?');
@@ -12,4 +13,4 @@ const processJoin = () => {
 };
 
 let joinbtn = document.querySelector('#joinbtn')
-mbbtn.addEventListener('click', processJoin);
+mbbtn.addEventListener('click', processJoin);*/

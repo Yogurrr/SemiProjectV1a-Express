@@ -11,11 +11,12 @@
             let frm = document.join;
             if(frm.userid.value === '') alert('아이디는?');
             else if(frm.passwd.value === '') alert('비밀번호는?');
-            else if(frm.repwd.value === '') alert('비밀번호 확인은?');
+            else if(frm.repasswd.value === '') alert('비밀번호 확인은?');
             else if(frm.name.value === '') alert('이름은?');
             else if(frm.email.value === '') alert('이메일은?');
             else {
                 frm.method = 'post';
+                frm.enctype = 'application/x-www-form-url-urlencoded';
                 frm.submit();
             }
         };
@@ -39,7 +40,7 @@
         <div><label for="email">이메일</label>
             <input type="text" name="email" id="email"></div>
         <div><label></label>
-            <button type="button" id="joinbtn">입력완료</button>
+            <button type="button" name="joinbtn" id="joinbtn">입력완료</button>
             <button type="reset">다시입력</button></div>
     </form>
 </main>

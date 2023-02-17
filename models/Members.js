@@ -1,6 +1,6 @@
 const oracledb = require('../models/Oracle');
 
-class Member {
+class Members {
     // 생성자 정의 - 변수 초기화
     // 즉, 매개변수로 전달된 값을 클래스 멤버 변수에 대입함
     constructor(userid, passwd, name, email) {
@@ -30,4 +30,4 @@ class Member {
     }
 }
 
-module.exports = Member;
+module.exports = Members;

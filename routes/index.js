@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const path = require('path');
-const Member = require('../models/Member')
+const Member = require('../models/Members')
 
 
 router.get('/', (req, res) => {
     res.render('index', {title: '첫 화면'});
 });
 
-router.get('/member',(req, res) => {
+/*router.get('/member',(req, res) => {
     res.render('member', {title: '회원 테이블'});
 });
 
@@ -17,14 +17,14 @@ router.post('/member',(req, res, next) => {
     // console.log(req.body);
     // console.log(req.body.name, req.body.kor, req.body.eng, req.body.mat);
 
-    let {uid, pwd, name, email} = req.body;
-    console.log(uid, pwd, name, email);
+    let {userid, passwd, name, email} = req.body;
+    console.log(userid, passwd, name, email);
 
     // 데이터베이스 처리 - sungjuk 테이블에 insert
     // 한 번 만든 다음에 다시 실행하면 이미 존재하고 있어서 오류 뜸
-    new Member(uid, pwd, name, email).insert();
+    new Member(userid, passwd, name, email).insert();
 
     res.redirect(304, '/');
-});
+});*/
 
 module.exports = router;

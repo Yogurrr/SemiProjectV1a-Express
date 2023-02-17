@@ -14,7 +14,6 @@ const boardRouter = require('./routes/board')
 
 // express 객체 생성 및 포트 변수 선언
 const app = express();
-// 포트가 정해져있지 않으면 3000번을 포트로 쓰겠다는 것
 const port = process.env.PORT || 3000;
 
 // 템플릿 엔진 등록 및 설정
