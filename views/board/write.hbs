@@ -5,6 +5,10 @@
     </style>
 {{/section}}
 
+{{#section 'script'}}
+    <script src="/js/write.js"></script>
+{{/section}}
+
 <main>
     <h3>새글쓰기</h3>
     <form name="write" id="writefrm">
@@ -19,7 +23,7 @@
                     </textarea></div>
 
         <div><label></label>
-            <button type="button">입력완료</button>
+            <button type="button" id="writebtn">입력완료</button>
             <button type="reset">다시입력</button>
         </div>
     </form>
