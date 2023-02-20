@@ -5,7 +5,7 @@
         label { display: inline-block; width: 110px; text-align: right;
             font-weight: bold; }
         #contents { border: 1px solid #cccccc; display: inline-block;
-            width: 460px; min-height: 350px; }
+            width: 460px; min-height: 350px; white-space: pre; }
         #view div label { padding-right: 10px; }
     </style>
 {{/section}}
@@ -23,15 +23,15 @@
         <div><label>작성일</label>
             <span>{{regdate}}</span></div>
 
-        <div><label class="dragup">본&nbsp;&nbsp;&nbsp;문</label>
+        <div><label class="dragup">본문</label>
             <span id="contents">{{contents}}</span></div>
         {{/bds}}
         <div><label></label>
-            <button type="button" onclick="location.href='write.html'">
+            <button type="button" onclick="location.href='/board/write'">
                 새글쓰기</button>
-            <button type="button">목록으로</button>
-            <button type="button">수정하기</button>
-            <button type="button">삭제하기</button>
+            <button type="button" onclick="location.href='/board/list'">목록으로</button>
+            <button type="button" id="updatebtn">수정하기</button>
+            <button type="button" id="deletebtn">삭제하기</button>
         </div>
     </div>
 </main>

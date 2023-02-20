@@ -4,9 +4,11 @@ let boardsql = {
     isnert: 'insert into board2 (bno2, title, userid, contents) values (bno2.nextval, :1, :2, :3)',
     select: `select bno2, title, userid, views, to_char(regdate, 'YYYY-MM-DD') regdate from board2 order by bno2 desc`,
     selectOne: `select board2.*, to_char(regdate, 'YYYY-MM-DD HH24:MI:SS') regdate2 from board2 where bno2 = :1`,
+    viewOne: `update board2 set views = views + 1 where bno2 = :1`,
     update: 'update board2 set title = :1, contents = :2 where bno2 = :3',
     delete: 'delete from board2 where bno2 = :1'
 }
+// viewOne은 조회수 증가 셀렉트문
 
 class Board {
     constructor(bno2, title, userid, regdate, contents, views) {
@@ -74,6 +76,11 @@ class Board {
                 let bd = new Board(row.BNO2, row.TITLE, row.USERID, row.REGDATE2, row.CONTENTS, row.VIEWS);
                 bds.push(bd);
             }
+
+            // 조회수 증가 코드
+            await conn.execute(boardsql.viewOne, params);
+            await conn.commit();
+
         } catch (e) {
             console.log(e);
         } finally {
