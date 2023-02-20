@@ -3,8 +3,11 @@ const router = express.Router();
 const path = require('path');
 const Board = require('../models/Board');
 
-router.get('/list', (req, res) => {
-    res.render('board/list', {title: '게시판 목록'});
+router.get('/list', async (req, res) => {
+    let bds = new Board().select().then((bds) => bds);
+    // console.log(await bds);
+
+    res.render('board/list', {title: '게시판 목록', bds: await bds});
 });
 
 router.get('/write', (req, res) => {
