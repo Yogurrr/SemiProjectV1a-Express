@@ -3,7 +3,7 @@ const oracledb = require('../models/Oracle');
 let boardsql = {
     isnert: 'insert into board2 (bno2, title, userid, contents) values (bno2.nextval, :1, :2, :3)',
     select: `select bno2, title, userid, views, to_char(regdate, 'YYYY-MM-DD') regdate from board2 order by bno2 desc`,
-    selectOne: 'select * from board2 where bno2 = :1',
+    selectOne: `select board2.*, to_char(regdate, 'YYYY-MM-DD HH24:MI:SS') regdate2 from board2 where bno2 = :1`,
     update: 'update board2 set title = :1, contents = :2 where bno2 = :3',
     delete: 'delete from board2 where bno2 = :1'
 }
@@ -25,7 +25,7 @@ class Board {
 
         try {
             conn = await oracledb.makeConn();   // 연결
-            let result = await conn.execute(boardsql.insert, params);   // 실행
+            let result = await conn.execute(boardsql.isnert, params);   // 실행
             await conn.commit();   // 확인
             if (result.rowsAffected > 0) insertcnt = result.rowsAffected;
         } catch (e) {
@@ -59,20 +59,28 @@ class Board {
 
         return bds;
     }
-    async selectOne() {
+    async selectOne(bno2) {   // 본문 조회
         let conn = null;
-        let params = [];
-        let insertcnt = 0;
+        let params = [bno2];
+        let bds = [];
 
         try {
             conn = await oracledb.makeConn();
+            let result = await conn.execute(boardsql.selectOne, params, oracledb.options);
+            let rs = result.resultSet;
+
+            let row = null;
+            while(row = await rs.getRow()) {
+                let bd = new Board(row.BNO2, row.TITLE, row.USERID, row.REGDATE2, row.CONTENTS, row.VIEWS);
+                bds.push(bd);
+            }
         } catch (e) {
             console.log(e);
         } finally {
             await oracledb.closeConn();
         }
 
-        return insertcnt;
+        return bds;
     }
     async update() {
         let conn = null;

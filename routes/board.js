@@ -16,9 +16,9 @@ router.get('/write', (req, res) => {
 
 router.post('/write', async (req, res) => {
     let viewName = '/board/failWrite';
-    let { title, userid, contents } = req.body;
+    let { title, uid, contents } = req.body;
 
-    let rowcnt = new Board(null, title, userid, null, contents, null).insert()
+    let rowcnt = new Board(null, title, uid, null, contents, null).insert()
         .then((result) => result);
 
     if (await rowcnt > 0) viewName = '/board/list';
@@ -26,8 +26,12 @@ router.post('/write', async (req, res) => {
     res.redirect(303, viewName);
 });
 
-router.get('/view', (req, res) => {
-    res.render('board/view', {title: '게시판 본문 보기'});
+router.get('/view', async (req, res) => {
+    let bno2 = req.query.bno2;
+
+    let bds = new Board().selectOne(bno2).then((bds) => bds);
+
+    res.render('board/view', {title: '게시판 본문 보기', bds: await bds});
 });
 
 router.get('/delete', (req, res) => {
