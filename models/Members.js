@@ -15,18 +15,21 @@ class Members {
         let conn = null;
         let sql = 'insert into member (mno, userid, passwd, name, email) values (mno.nextval, :1, :2, :3, :4)';
         let params = [this.userid, this.passwd, this.name, this.email];
+        let insertcnt = 0;
 
-        //
         try {
             conn = await oracledb.makeConn();
             let result = await conn.execute(sql, params);
             await conn.commit();
+            if (result.rowsAffected > 0) insertcnt = result.rowsAffected;
             console.log(result);
         } catch (e) {
             console.log(e);
         } finally {
-            oracledb.closeConn(conn);
+            await oracledb.closeConn(conn);
         }
+
+        return insertcnt;
     }
 }
 

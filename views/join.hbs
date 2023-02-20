@@ -6,35 +6,18 @@
 {{/section}}
 
 {{#section 'script'}}
-    <script>
-        const processJoin = () => {
-            let frm = document.join;
-            if(frm.userid.value === '') alert('아이디는?');
-            else if(frm.passwd.value === '') alert('비밀번호는?');
-            else if(frm.repasswd.value === '') alert('비밀번호 확인은?');
-            else if(frm.name.value === '') alert('이름은?');
-            else if(frm.email.value === '') alert('이메일은?');
-            else {
-                frm.method = 'post';
-                frm.enctype = 'application/x-www-form-url-urlencoded';
-                frm.submit();
-            }
-        };
-
-        let joinbtn = document.querySelector('#joinbtn')
-        joinbtn.addEventListener('click', processJoin);
-    </script>
+    <script src="/js/join.js"></script>
 {{/section}}
 
 <main>
     <h3>회원가입</h3>
-    <form>
+    <form name="join" id="joinfrm">
         <div><label for="userid">아이디</label>
             <input type="text" name="userid" id="userid"></div>
         <div><label for="passwd">비밀번호</label>
             <input type="password" name="passwd" id="passwd"></div>
         <div><label for="repasswd">비밀번호 확인</label>
-            <input type="password" name="repasswd" id="reasspwd"></div>
+            <input type="password" name="repasswd" id="repasswd"></div>
         <div><label for="name">이름</label>
             <input type="text" name="name" id="name"></div>
         <div><label for="email">이메일</label>
