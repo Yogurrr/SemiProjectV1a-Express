@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const Board = require('../models/Board');
-const Member = require("../models/Members");
 
 router.get('/list', async (req, res) => {
     let bds = new Board().select().then((bds) => bds);
@@ -40,9 +39,15 @@ router.get('/view', async (req, res) => {
     res.render('board/view', {title: '게시판 본문 보기', bds: await bds});
 });
 
-router.get('/delete', (req, res) => {
-    // res.sendFile(path.join(__dirname, '../public', 'delete.html'));
-    res.render('delete', {title: 'delete'});
+router.get('/delete', async (req, res) => {
+    let { bno2, uid } = req.query;
+    let suid = req.session.userid;
+
+    if(suid && uid && (suid === uid)) {   // 글 작성자와 삭제자가 일치하는 경우
+        new Board().delete(bno2).then(cnt => cnt);
+    }
+
+    res.redirect(303, '/board/list');
 });
 
 router.get('/update', (req, res) => {

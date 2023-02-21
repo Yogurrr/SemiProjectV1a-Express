@@ -10,6 +10,10 @@
     </style>
 {{/section}}
 
+{{#section 'script'}}
+    <script src="/js/view.js"></script>
+{{/section}}
+
 <main>
     <h3>게시판 본문글</h3>
     <div id="view">
@@ -23,8 +27,11 @@
         <div><label>작성일</label>
             <span>{{regdate}}</span></div>
 
-        <div><label class="dragup">본문</label>
+        <div><label class="dragup">본 문</label>
             <span id="contents">{{contents}}</span></div>
+
+        <input type="hidden" id="bno2" value="{{bno2}}">
+        <input type="hidden" id="uid" value="{{userid}}">
         {{/bds}}
         <div><label></label>
             {{#if session.userid}}
