@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const Board = require('../models/Board');
+const Member = require("../models/Members");
 
 router.get('/list', async (req, res) => {
     let bds = new Board().select().then((bds) => bds);
@@ -11,7 +12,12 @@ router.get('/list', async (req, res) => {
 });
 
 router.get('/write', (req, res) => {
-    res.render('board/write', {title: '게시판 새글쓰기'});
+    if (req.session.userid) {   // 세션 변수 userid가 존재한다면
+        res.render('board/write', {title: '게시판 새글쓰기'});
+    } else {
+        res.redirect(303, '/member/login');
+    }
+    // res.render('board/write', {title: '게시판 새글쓰기'});
 });
 
 router.post('/write', async (req, res) => {
