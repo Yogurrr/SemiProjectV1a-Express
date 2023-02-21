@@ -5,7 +5,7 @@ let boardsql = {
     select: `select bno2, title, userid, views, to_char(regdate, 'YYYY-MM-DD') regdate from board2 order by bno2 desc`,
     selectOne: `select board2.*, to_char(regdate, 'YYYY-MM-DD HH24:MI:SS') regdate2 from board2 where bno2 = :1`,
     viewOne: `update board2 set views = views + 1 where bno2 = :1`,
-    update: 'update board2 set title = :1, contents = :2 where bno2 = :3',
+    update: 'update board2 set title = :1, contents = :2, regdate = current_timestamp where bno2 = :3',
     delete: 'delete from board2 where bno2 = :1'
 }
 // viewOne은 조회수 증가 셀렉트문
@@ -91,18 +91,21 @@ class Board {
     }
     async update() {
         let conn = null;
-        let params = [];
-        let aa = 0;
+        let params = [this.title, this.contents, this.bno2];
+        let updatecnt = 0;
 
         try {
             conn = await oracledb.makeConn();
+            let result = await conn.execute(boardsql.update, params);
+            await conn.commit();
+            if (result.rowsAffected > 0) updatecnt = result.rowsAffected;
         } catch (e) {
             console.log(e);
         } finally {
             await oracledb.closeConn();
         }
 
-        return aa;
+        return updatecnt;
     }
     async delete(bno2) {
         let conn = null;

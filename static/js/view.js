@@ -4,7 +4,7 @@ let bno2 = document.querySelector('#bno2').value;
 let uid = document.querySelector('#uid').value;
 
 updatebtn?.addEventListener('click', () => {
-    location.href = '/board/update?bno2=' + bno2;
+    location.href = '/board/update?bno2=' + bno2 + '&uid=' + uid;
 });
 
 deletebtn?.addEventListener('click', () => {

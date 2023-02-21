@@ -1,0 +1,31 @@
+{{#section 'css'}}
+    <style>
+        #updatefrm { width: 600px; margin-top: 100px; }
+        #updatefrm div label { padding-right: 10px; }
+    </style>
+{{/section}}
+
+{{#section 'script'}}
+    <script src="/js/update.js"></script>
+{{/section}}
+
+<main>
+    <h3>글 수정하기</h3>
+    {{#bds}}
+    <form name="update" id="updatefrm">
+        <div><label for="title">제목</label>
+            <input type="text" name="title" id="title" value="{{title}}"></div>
+
+        <div><label for="uid">작성자</label>
+            <input type="text" name="uid" id="uid" value="{{userid}}" readonly></div>
+
+        <div><label for="contents" class="dragup">본문</label>
+            <textarea name="contents" id="contents" rows="7" cols="55">{{contents}}</textarea></div>
+
+        <div><label></label>
+            <button type="button" id="updatebtn" name="updatebtn">수정완료</button>
+            <button type="reset">다시입력</button>
+        </div>
+    </form>
+    {{/bds}}
+</main>
