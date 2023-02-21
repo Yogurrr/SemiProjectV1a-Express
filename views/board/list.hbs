@@ -29,7 +29,10 @@
 {{#section 'script'}}
     <script>
         let newbtn = document.querySelector('#newbtn');
-        newbtn.addEventListener('click', () => {
+        // optional chaining(?.)
+        // ? 앞의 객체가 null 이거나 undefined 라면
+        // . 뒤의 코드를 실행하지 않음
+        newbtn?.addEventListener('click', () => {
             location.href = '/board/write';
         });
     </script>
@@ -47,7 +50,11 @@
         </colgroup>
         <tr>
             <td colspan="5" class="alignrgt">
-                <button type="button" id="newbtn" name="newbtn">새글쓰기</button></td>
+                {{#if session.userid}}
+                    <button type="button" id="newbtn">새글쓰기</button>
+                {{else}}&nbsp;
+                {{/if}}
+            </td>
         </tr>
         <tr>
             <th>번호</th>

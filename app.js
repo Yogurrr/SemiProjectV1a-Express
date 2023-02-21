@@ -35,7 +35,6 @@ app.set('view engine', 'hbs');
 const maxAge = 1000 * 30;
 const sessionObj = {
     resave: false, saveUninitialized: false,
-    // secret: process.env.COOKIE_SECRET,
     secret: 'process.env.COOKIE_SECRET',
     cookie: { httpOnly: true, secure: false, },
     name: 'session-cookie',

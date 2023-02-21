@@ -54,7 +54,11 @@ router.get('/logout', (req, res) => {
 });
 
 router.get('/myinfo', (req, res) => {
-    res.render('myinfo', {title : '회원정보'});
+    if (req.session.userid) {   // 세션 변수 userid가 존재한다면
+        res.render('myinfo', {title : '회원정보'});
+    } else {
+        res.redirect(303, '/member/login');
+    }
 });
 
 module.exports = router;
