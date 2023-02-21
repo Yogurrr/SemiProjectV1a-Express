@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const Member = require("../models/Members");
+const Board = require("../models/Board");
 
 const html = 'text/html; charset=utf-8';
 
@@ -53,9 +54,11 @@ router.get('/logout', (req, res) => {
     res.redirect(303, '/');
 });
 
-router.get('/myinfo', (req, res) => {
+router.get('/myinfo', async (req, res) => {
     if (req.session.userid) {   // 세션 변수 userid가 존재한다면
-        res.render('myinfo', {title : '회원정보'});
+        let member = new Member().selectOne(req.session.userid).then(mb => mb);
+
+        res.render('myinfo', {title: '회원정보', mb: await member});
     } else {
         res.redirect(303, '/member/login');
     }

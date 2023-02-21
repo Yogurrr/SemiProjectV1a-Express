@@ -2,7 +2,8 @@ const oracledb = require('../models/Oracle');
 
 let membersql = {
     insertsql : 'insert into member (mno, userid, passwd, name, email) values (mno.nextval, :1, :2, :3, :4)',
-    loginsql : `select count(userid) cnt from member where userid = :1 and passwd = :2`
+    loginsql : `select count(userid) cnt from member where userid = :1 and passwd = :2`,
+    selectOne : `select member.*, to_char(regdate, 'YYYY-MM-DD HH24:MI:SS') regdate2 from member where userid = :1`,
 }
 
 class Members {
@@ -58,6 +59,32 @@ class Members {
         }
 
         return isLogin;
+    }
+
+    async selectOne(uid) {   // 아이디로 검색된 회원의 모든 정보 조회
+        let conn = null;
+        let params = [uid];
+        let members = [];
+
+        try {
+            conn = await oracledb.makeConn();
+            let result = await conn.execute(membersql.selectOne, params, oracledb.options);
+            let rs = result.resultSet;
+
+            let row = null;
+            while(row = await rs.getRow()) {
+                let m = new Members(row.USERID, '', row.NAME, row.EMAIL);
+                m.regdate = row.REGDATE2;
+                members.push(m);
+            }
+
+        } catch (e) {
+            console.log(e);
+        } finally {
+            await oracledb.closeConn();
+        }
+
+        return members;
     }
 }
 
