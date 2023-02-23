@@ -1,13 +1,41 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
 const Board = require('../models/Board');
+const ppg = 15;
 
+
+// 페이징 기능 지원
+// 현재 페이지를 의미하는 변수는 : cpg
+// 현재 페이지에 해당하는 게시물들을 조회하려면 해당범위의 시작값과 종료값 계산
+// cpg : 1 => 1 ~ 5
+// cpg : 2 => 6 ~ 10
+// cpg : 3 => 11 ~ 15
+// 페이지당 게시물 수 ppg : 5
+// stnum : (cpg - 1) * ppg + 1
+// ednum : stnum + ppg
 router.get('/list', async (req, res) => {
-    let bds = new Board().select().then((bds) => bds);
-    // console.log(await bds);
+    let { cpg } = req.query;
+    cpg = cpg ? cpg : 1;
+    let stnum = (cpg - 1) * ppg + 1;   // 지정한 페이지 범위의 시작값
+    let stpgn = parseInt((cpg - 1) / 10) * 10 + 1   // 페이지네이션 시작값
 
-    res.render('board/list', {title: '게시판 목록', bds: await bds});
+    // 페이지네이션 블록 생성
+    let stpgns = [];
+    for (let i = stpgn; i < stpgn + 10; ++i) {
+        let iscpg = (i == cpg) ? true : false;   // 현재 페이지 표시
+        let pgn = {'num': i, 'iscpg': iscpg}
+        stpgns.push(pgn);
+    }
+    let alpg = new Board().selectCount().then((cnt) => cnt);   // 총 게시물 수
+    let isprev = (cpg - 1 > 0) ? true: false;
+    let isnext = (cpg < alpg) ? true: false;
+    let pgn = {'prev': stpgn - 1, 'next': stpgn + 10, 'isprev': isprev, 'isnext': isnext};
+    // 10 해서 안 되면 '9 + 1' 하기
+
+    let bds = new Board().select(stnum).then((bds) => bds);
+    console.log(cpg, stnum, stpgn);
+
+    res.render('board/list', {title: '게시판 목록', bds: await bds, stpgns: stpgns, pgn: pgn});
 });
 
 router.get('/write', (req, res) => {

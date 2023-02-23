@@ -1,8 +1,12 @@
 const oracledb = require('../models/Oracle');
+const ppg = 15;
 
 let boardsql = {
     insert: 'insert into board2 (bno2, title, userid, contents) values (bno2.nextval, :1, :2, :3)',
     select: `select bno2, title, userid, views, to_char(regdate, 'YYYY-MM-DD') regdate from board2 order by bno2 desc`,
+    paging1: `select * from (select bno2, title, userid, views, to_char(regdate, 'YYYY-MM-DD') regdate, row_number() 
+                over (order by bno2 desc) rowno from board2`,
+    paging2: ') bd2 where rowno >= :1 and rowno < :2',
     selectOne: `select board2.*, to_char(regdate, 'YYYY-MM-DD HH24:MI:SS') regdate2 from board2 where bno2 = :1`,
     selectCount: `select count(bno2) cnt from board2`,
     viewOne: `update board2 set views = views + 1 where bno2 = :1`,
@@ -39,21 +43,23 @@ class Board {
 
         return insertcnt;
     }
-    async select() {   // 게시판 목록 출력
+    async select(stnum) {   // 게시판 목록 출력
         let conn = null;
-        let params = [];
+        let params = [stnum, stnum + ppg];
         let bds = [];   // 결과 저장용
 
         try {
             conn = await oracledb.makeConn();
-            let result = await conn.execute(boardsql.selectCount, params, oracledb.options);
+            /*let result = await conn.execute(boardsql.selectCount, [], oracledb.options);
             let rs = result.resultSet;
             let idx = -1, row = null;
-            if ((row = await rs.getRow())) idx = row.CNT;   // 총 게시글 수
+            if ((row = await rs.getRow())) idx = row.CNT;   // 총 게시글 수*/
+            let idx = await this.selectCount();   // 총 게시글 수 계산
+            idx = idx - stnum + 1;
 
-            result = await conn.execute(boardsql.select, params, oracledb.options);
-            rs = result.resultSet;
-            row = null;
+            let result = await conn.execute(boardsql.paging1 + boardsql.paging2, params, oracledb.options);
+            let rs = result.resultSet;
+            let row = null;
             while((row = await rs.getRow())) {
                 let bd = new Board(row.BNO2, row.TITLE, row.USERID, row.REGDATE, null, row.VIEWS);
                 bd.idx = idx--;   // 글 번호 컬럼
@@ -94,6 +100,26 @@ class Board {
         }
 
         return bds;
+    }
+    async selectCount(stnum) {   // 총 게시물 수 계산
+        let conn = null;
+        let params = [];
+        let cnt = -1;   // 결과 저장용
+
+        try {
+            conn = await oracledb.makeConn();
+            let result = await conn.execute(boardsql.selectCount, [], oracledb.options);
+            let rs = result.resultSet;
+            let row = null;
+            if ((row = await rs.getRow())) cnt = row.CNT;   // 총 게시글 수
+
+        } catch (e) {
+            console.log(e);
+        } finally {
+            await oracledb.closeConn();
+        }
+
+        return cnt;
     }
     async update() {
         let conn = null;
