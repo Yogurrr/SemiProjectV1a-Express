@@ -61,7 +61,6 @@
             <col style="width: 10%">
         </colgroup>
         <tr>
-            {{!--#if session.userid--}}
             <td colspan="3" class="alignlft">
                 <select name="ftype" id="ftype">
                     <option value="title">제 목</option>   <!--보여지는 이름이랑 보낼 값 이름 다르면 value를 적어야 함-->
@@ -69,12 +68,12 @@
                     <option value="contents">본 문</option>
                 </select>
                 <input type="text" name="fkey" id="fkey">
-                <button type="button" id="findbtn">검색하기</button>
+                <button type="button" id="findbtn"
+                        {{#unless session.userid}}disabled{{/unless}}>검색하기</button>
             </td>
             <td colspan="2" class="alignrgt">
-                    <button type="button" id="newbtn">새글쓰기</button></td>
-            {{!--else--}}
-            {{!--/if--}}
+                    <button type="button" id="newbtn"
+                            {{#unless session.userid}}disabled{{/unless}}>새글쓰기</button></td>
         </tr>
         <tr>
             <th>번호</th>
