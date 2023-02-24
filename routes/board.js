@@ -18,7 +18,9 @@ router.get('/list', async (req, res) => {
     cpg = cpg ? parseInt(cpg) : 1;
     let stnum = (cpg - 1) * ppg + 1;   // 지정한 페이지 범위의 시작값
 
-    let allcnt = new Board().selectCount().then((cnt) => cnt);   // 총 게시물 수
+    let result = new Board().select(stnum).then((result) => result);
+    let bds = result.then(r => r.bds);
+    let allcnt = result.then(r => r.allcnt);   // 총 게시물 수
     let alpg = Math.ceil( await allcnt / ppg);   // 총 페이지 수
 
     // 페이지네이션 블록 생성
@@ -52,8 +54,7 @@ router.get('/list', async (req, res) => {
         'isprev10': isprev10, 'isnext10': isnext10};
     // 10 해서 안 되면 '9 + 1' 하기
 
-    let bds = new Board().select(stnum).then((bds) => bds);
-    console.log(cpg, stnum, stpgn);
+    console.log(cpg, stnum, stpgn, alpg, isnext);
 
     res.render('board/list', {title: '게시판 목록', bds: await bds, stpgns: stpgns, pgn: pgn});
 });

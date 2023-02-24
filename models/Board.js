@@ -47,18 +47,15 @@ class Board {
         let conn = null;
         let params = [stnum, stnum + ppg];
         let bds = [];   // 결과 저장용
+        let allcnt = -1;
 
         try {
             conn = await oracledb.makeConn();
-            /*let result = await conn.execute(boardsql.selectCount, [], oracledb.options);
-            let rs = result.resultSet;
-            let idx = -1, row = null;
-            if ((row = await rs.getRow())) idx = row.CNT;   // 총 게시글 수*/
-            let idx = await this.selectCount();   // 총 게시글 수 계산
-            idx = idx - stnum + 1;
+            allcnt = await this.selectCount(conn);   // 총 게시글 수 계산
+            let idx = allcnt - stnum + 1;
 
-            let result = await conn.execute(boardsql.paging1 + boardsql.paging2, params, oracledb.options);
-            let rs = result.resultSet;
+            let result1 = await conn.execute(boardsql.paging1 + boardsql.paging2, params, oracledb.options);
+            let rs = result1.resultSet;
             let row = null;
             while((row = await rs.getRow())) {
                 let bd = new Board(row.BNO2, row.TITLE, row.USERID, row.REGDATE, null, row.VIEWS);
@@ -70,8 +67,9 @@ class Board {
         } finally {
             await oracledb.closeConn();
         }
+        let result = {'bds': bds, 'allcnt': allcnt}
 
-        return bds;
+        return result;
     }
     async selectOne(bno2) {   // 본문 조회
         let conn = null;
@@ -101,22 +99,18 @@ class Board {
 
         return bds;
     }
-    async selectCount(stnum) {   // 총 게시물 수 계산
-        let conn = null;
+    async selectCount(conn) {   // 총 게시물 수 계산
         let params = [];
         let cnt = -1;   // 결과 저장용
 
         try {
-            conn = await oracledb.makeConn();
-            let result = await conn.execute(boardsql.selectCount, [], oracledb.options);
+            let result = await conn.execute(boardsql.selectCount, params, oracledb.options);
             let rs = result.resultSet;
             let row = null;
             if ((row = await rs.getRow())) cnt = row.CNT;   // 총 게시글 수
 
         } catch (e) {
             console.log(e);
-        } finally {
-            await oracledb.closeConn();
         }
 
         return cnt;
