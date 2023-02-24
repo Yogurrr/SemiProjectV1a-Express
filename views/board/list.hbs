@@ -19,7 +19,7 @@
         .link a:active { color: lightcoral; }
 
         .pagenation { list-style: none; padding: 0; margin: 0 auto;
-            width: 500px;}  /*435*/
+            text-align: center;}
         .pagenation li { display: inline-block; padding: 6px; }
         .cpage { font: bold 32px '맑은 고딕'; color: red; }
         .prev { color: #cccccc }
@@ -74,7 +74,13 @@
         {{/bds}}
     </table>
     <ul class="pagenation">
-        <li> <a href="?cpg= {{pgn.prev}}">이전</a> </li>
+        {{#if pgn.isprev}}
+            <li> <a href="?cpg= {{pgn.prev}}">이전</a> </li>
+        {{/if}}
+
+        {{#if pgn.isprev10}}
+        <li> <a href="?cpg= {{pgn.prev10}}">이전-10</a> </li>
+        {{/if}}
 
         {{#stpgns}}
             {{#if iscpg}}
@@ -84,6 +90,12 @@
             {{/if}}
         {{/stpgns}}
 
-        <li><a href="?cpg= {{pgn.next}}">다음</a></li>
+        {{#if pgn.isnext10}}
+        <li><a href="?cpg= {{pgn.next10}}">다음+10</a></li>
+        {{/if}}
+
+        {{#if pgn.isnext}}
+            <li><a href="?cpg= {{pgn.next}}">다음</a></li>
+        {{/if}}
     </ul>
 </main>
