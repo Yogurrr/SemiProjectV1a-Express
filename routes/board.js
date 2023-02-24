@@ -14,11 +14,13 @@ const ppg = 15;
 // stnum : (cpg - 1) * ppg + 1
 // ednum : stnum + ppg
 router.get('/list', async (req, res) => {
-    let { cpg } = req.query;
+    let [ cpg, ftype, fkey ] = [ req.query.cpg, req.query.ftype, req.query.fkey ];
+    console.log(ftype, fkey);
+
     cpg = cpg ? parseInt(cpg) : 1;
     let stnum = (cpg - 1) * ppg + 1;   // 지정한 페이지 범위의 시작값
 
-    let result = new Board().select(stnum).then((result) => result);
+    let result = new Board().select(stnum, ftype, fkey).then((result) => result);
     let bds = result.then(r => r.bds);
     let allcnt = result.then(r => r.allcnt);   // 총 게시물 수
     let alpg = Math.ceil( await allcnt / ppg);   // 총 페이지 수
@@ -56,7 +58,11 @@ router.get('/list', async (req, res) => {
 
     console.log(cpg, stnum, stpgn, alpg, isnext);
 
-    res.render('board/list', {title: '게시판 목록', bds: await bds, stpgns: stpgns, pgn: pgn});
+    // 질의문자열 정의
+    let qry = fkey ? `&ftype=${ftype}&fkey=${fkey}` : ``;
+
+    res.render('board/list', {title: '게시판 목록', bds: await bds, stpgns: stpgns, pgn: pgn,
+        qry: qry});
 });
 
 router.get('/write', (req, res) => {

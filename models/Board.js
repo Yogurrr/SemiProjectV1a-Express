@@ -15,6 +15,14 @@ let boardsql = {
 }
 // viewOne은 조회수 증가 셀렉트문
 
+// 동적쿼리 생성 함수
+const makeWhere = (ftype, fkey) => {
+    let where = ` where title = '${fkey}' `;
+    if (ftype === 'userid') where = ` where userid = '${fkey}' `
+    else if (ftype === 'contents') where = ` where contents like '%${fkey}%' `
+    return where;
+}
+
 class Board {
     constructor(bno2, title, userid, regdate, contents, views) {
         this.bno2 = bno2;
@@ -43,18 +51,21 @@ class Board {
 
         return insertcnt;
     }
-    async select(stnum) {   // 게시판 목록 출력
+    async select(stnum, ftype, fkey) {   // 게시판 목록 출력
         let conn = null;
         let params = [stnum, stnum + ppg];
         let bds = [];   // 결과 저장용
         let allcnt = -1;
+        let where = '';
+
+        if (fkey !== undefined) where = makeWhere(ftype, fkey);
 
         try {
             conn = await oracledb.makeConn();
-            allcnt = await this.selectCount(conn);   // 총 게시글 수 계산
+            allcnt = await this.selectCount(conn, where);   // 총 게시글 수 계산
             let idx = allcnt - stnum + 1;
 
-            let result1 = await conn.execute(boardsql.paging1 + boardsql.paging2, params, oracledb.options);
+            let result1 = await conn.execute(boardsql.paging1 + where + boardsql.paging2, params, oracledb.options);
             let rs = result1.resultSet;
             let row = null;
             while((row = await rs.getRow())) {
@@ -99,12 +110,12 @@ class Board {
 
         return bds;
     }
-    async selectCount(conn) {   // 총 게시물 수 계산
+    async selectCount(conn, where) {   // 총 게시물 수 계산
         let params = [];
         let cnt = -1;   // 결과 저장용
 
         try {
-            let result = await conn.execute(boardsql.selectCount, params, oracledb.options);
+            let result = await conn.execute(boardsql.selectCount + where, params, oracledb.options);
             let rs = result.resultSet;
             let row = null;
             if ((row = await rs.getRow())) cnt = row.CNT;   // 총 게시글 수
